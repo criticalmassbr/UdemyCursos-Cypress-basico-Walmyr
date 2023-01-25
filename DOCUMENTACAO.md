@@ -1,29 +1,27 @@
-# cy-data-test
+# WhatsBot
 
+Este projeto avalia o Framework Cypress como ferramenta de teste em sistemas complexos como o WebWhatsApp
 Sample project to demonstrate a `cy.dataTest` Cypress custom command.
 
-## Pre-requirements
+## Prerequisitos
 
-It is required to have Node.js and npm installed to run this project.
+Necessita Node.js e NPM instalado.
 
-> I used versions `v16.13.2` and `8.1.2` of Node.js and npm, respectively. I suggest you use the same or later versions.
-## Installation
+> Eu usei versões Node `v18.12.1` e NPM `9.2.0`. Use as mesmas ou posteriores.
 
-Run `npm install` (or `npm i` for the short version) to install the dev dependencies.
+## Instalação
 
-## Tests
+Rode `npm install` (ou `npm i` na versão abreviada) para instalar as dependencias do sistema.
 
-> **Note:** Before running the tests, make a copy of the `cypress.env.example.json` file as `cypress.env.json`, which in the real world, you would update with valid credentials.
->
-> The `cypress.env.json` file is included on [`.gitignore`](./.gitignore) and you're safe that confidential info won't be versioned.
-Run `npm test` (or `npm t` for the short version) to run the test in headless mode.
+## Teste
 
-Or, run `npm run cy:open` to open Cypress in interactive mode.
 
-## Support this project
+> No momento é necessário ativar cada teste via QRcode antes de prosseguir com a automação.
 
-If you want to support this project, leave a ⭐.
+## Ajude o projeto
+
+Deixe um comentário, alterações, sugestões,...
+Se gostou deixe uma ⭐.
 
 ___
-
-This project was created with 💚 by [Walmyr](https://walmyr.dev).
+Este projeto foi criado com 💚 por [LeaoGama](https://github.com/leaogama).
