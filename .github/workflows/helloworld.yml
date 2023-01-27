@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   say-hello:
-  runs-on: ubuntu-20.04
-  steps:
+   runs-on: ubuntu-20.04
+   steps:
     - name: Say Hi
       run: echo "Hello!!"
