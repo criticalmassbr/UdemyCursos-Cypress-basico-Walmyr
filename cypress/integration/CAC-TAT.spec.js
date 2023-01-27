@@ -6,6 +6,8 @@
 
 describe('Central de Atendimento ao Cliente TAT', function () {
 
+    const WAIT_SECONDS_IN_MS = 3000
+
     beforeEach(() => {
         cy.visit('../src/index.html')
     })
@@ -15,6 +17,8 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     })
 
     it('ex01 Preencher campos obrigatórios e enviar formulário', () => {
+
+        cy.clock() //congela o relogio
         let z = "Gostaria de receber uma copia do meu contrato"
         cy.get('input#firstName').should('be.visible').type('Joao').should('have.value', 'Joao')
         cy.get('input#lastName').should('be.visible').type('Leão').should('have.value', 'Leão')
@@ -22,8 +26,12 @@ describe('Central de Atendimento ao Cliente TAT', function () {
         cy.get('#open-text-area').should('be.visible').type(z, { delay: 0 }).should('have.value', z)
         cy.contains('button', 'enviar', { matchCase: false }).should('be.visible').click()
         cy.get('.success').should('be.visible').should('contain.text', 'sucesso')
+        cy.tick(WAIT_SECONDS_IN_MS) //avança 3 segundos
+        cy.get('.success > strong').should('not.be.visible') //verifica se mensagem desaparece apos os 3 segundos
     })
     it('ex02 exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', () => {
+
+        cy.clock() //congela o relogio
         let z = "Gostaria de receber uma copia do meu contrato"
         cy.get('input#firstName').should('be.visible').type('Joao').should('have.value', 'Joao')
         cy.get('input#lastName').should('be.visible').type('Leão').should('have.value', 'Leão')
@@ -31,6 +39,9 @@ describe('Central de Atendimento ao Cliente TAT', function () {
         cy.get('#open-text-area').should('be.visible').type(z, { delay: 0 }).should('have.value', z)
         cy.contains('button', 'enviar', { matchCase: false }).should('be.visible').click()
         cy.get('.error').should('be.visible').should('contain.text', 'campos')
+
+        cy.tick(WAIT_SECONDS_IN_MS) //avança 3 segundos
+        cy.get('.success > strong').should('not.be.visible') //verifica se mensagem desaparece apos os 3 segundos
     })
 
     it('ex03 Erro- ele aceita numeros e "." no campo Telefone', () => {
@@ -44,6 +55,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     })
 
     it('ex04 exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
+        cy.clock()
         let z = "Gostaria de receber uma copia do meu contrato"
         cy.get('input#firstName').should('be.visible').type('Flavio').should('have.value', 'Flavio')
         cy.get('input#lastName').should('be.visible').type('Leão').should('have.value', 'Leão')
@@ -53,6 +65,8 @@ describe('Central de Atendimento ao Cliente TAT', function () {
         cy.get('#open-text-area').should('be.visible').type(z, { delay: 1 }).should('have.value', z)
         cy.contains('button', 'enviar', { matchCase: false }).should('be.visible').click()
         cy.get('.error').should('be.visible').should('contain.text', 'campos')
+        cy.tick(WAIT_SECONDS_IN_MS)
+        cy.get('.error').should('not.be.visible')
 
     })
 
@@ -67,15 +81,20 @@ describe('Central de Atendimento ao Cliente TAT', function () {
 
     })
     it('ex06 exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
-
+        cy.clock()
         cy.contains('button', 'enviar', { matchCase: false }).should('be.visible').click()
         cy.get('.error').should('be.visible').should('contain.text', 'campos')
+        cy.tick(WAIT_SECONDS_IN_MS)
+        cy.get('.error').should('not.be.visible')
     })
 
     it('ct07-Envia o formulario com sucesso usando comando customizado.', () => {
+        cy.clock()
         let z = "Gostaria de receber uma copia do meu contrato"
         cy.fillMandatoryFieldsAndSubmit(z)
         cy.get('.success').should('be.visible').should('contain.text', 'sucesso')
+        cy.tick(WAIT_SECONDS_IN_MS)
+        cy.get('.success').should('not.be.visible')
     });
 
     it('ct08-Seleciona um produto (YouTube) por seu TEXTO', () => {
@@ -192,5 +211,15 @@ describe('Central de Atendimento ao Cliente TAT', function () {
         cy.contains('Talking About Testing').should('be.visible')
     });
 
-
+    Cypress._.times(5, () => {
+        it('Testa mensagem por 3 segundos', () => {
+            cy.clock()
+            cy.get('button[type="submit"]').should('be.visible').click()
+            cy.contains('.error > strong', 'Valide os campos obrigatórios!')
+            cy.tick(2999)
+            cy.tick(1)
+            cy.clock()
+            cy.contains('.error > strong', 'Valide os campos obrigatórios!').should('not.be.visible')
+        })
+    })
 })
