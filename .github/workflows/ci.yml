@@ -1,4 +1,4 @@
-name: Artifacts
+name: End-to-End tests salva videos e telas
 on: [push]
 jobs:
   cypress-run:
