@@ -189,7 +189,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     });
     it('ct22-testa a página da política de privavidade de forma independente', () => {
         cy.visit('./src/privacy.html')
-        cy.contains('Talking About Testing').should('be.visible')
+        cy.contains('Taking About Testing').should('be.visible')
     });
 
 
