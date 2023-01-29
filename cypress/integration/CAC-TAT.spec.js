@@ -4,6 +4,8 @@
 
 
 
+
+
 describe('Central de Atendimento ao Cliente TAT', function () {
 
     const WAIT_SECONDS_IN_MS = 3000
@@ -222,4 +224,38 @@ describe('Central de Atendimento ao Cliente TAT', function () {
             cy.contains('.error > strong', 'Valide os campos obrigatórios!').should('not.be.visible')
         })
     })
+
+    it('exibe e esconde as mensagens de sucesso e erro usando o .invoke()', () => {
+        cy.get('.success')
+            .should('not.be.visible')
+            .invoke('show')
+            .wait(1000)
+            .should('be.visible')
+            .and('contain', 'Mensagem enviada com sucesso.')
+            .invoke('hide')
+            .should('not.be.visible')
+
+        cy.get('.error')
+            .should('not.be.visible')
+            .invoke('show')
+            .wait(1000)
+            .should('contain', 'Valide os campos obrigatórios!')
+            .and('be.visible')
+            .invoke('hide')
+            .should('not.be.visible')
+    });
+
+    it('muda labe telefone usando o comando invoke', () => {
+        cy.get(':nth-child(2) > :nth-child(2) > label > strong')
+        .invoke('replaceWith', 'Telefone ou Celular')
+        
+    });
+
+it('preenche a area de texto usando o comando invoke ', () => {
+    const longtext = Cypress._.repeat('0123456789', 20)
+
+cy.get('#open-text-area')
+.invoke('val', longtext).should('have.value', longtext)
+
+});
 })
