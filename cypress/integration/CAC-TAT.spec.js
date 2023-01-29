@@ -214,7 +214,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     });
 
     Cypress._.times(5, () => {
-        it('Testa mensagem por 3 segundos', () => {
+        it('ct24-Testa mensagem por 3 segundos', () => {
             cy.clock()
             cy.get('button[type="submit"]').should('be.visible').click()
             cy.contains('.error > strong', 'Valide os campos obrigatórios!')
@@ -225,7 +225,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
         })
     })
 
-    it('exibe e esconde as mensagens de sucesso e erro usando o .invoke()', () => {
+    it('ct25-exibe e esconde as mensagens de sucesso e erro usando o .invoke()', () => {
         cy.get('.success')
             .should('not.be.visible')
             .invoke('show')
@@ -245,17 +245,47 @@ describe('Central de Atendimento ao Cliente TAT', function () {
             .should('not.be.visible')
     });
 
-    it('muda labe telefone usando o comando invoke', () => {
+    it('ct26-muda labe telefone usando o comando invoke', () => {
         cy.get(':nth-child(2) > :nth-child(2) > label > strong')
-        .invoke('replaceWith', 'Telefone ou Celular')
-        
+            .invoke('replaceWith', 'Telefone ou Celular')
+
     });
 
-it('preenche a area de texto usando o comando invoke ', () => {
-    const longtext = Cypress._.repeat('0123456789', 20)
+    it('ct27-preenche a area de texto usando o comando invoke ', () => {
+        const longtext = Cypress._.repeat('0123456789', 20)
 
-cy.get('#open-text-area')
-.invoke('val', longtext).should('have.value', longtext)
+        cy.get('#open-text-area')
+            .invoke('val', longtext)
+            .should('have.value', longtext)
 
-});
+    });
+
+    it('ct28-faz uma requisição HTTP', () => {
+        cy.request('https://cac-tat.s3.eu-central-1.amazonaws.com/index.html')
+            .should((response) => {
+                console.log(response)
+                expect(response.status).to.equal(200)
+                expect(response.statusText).to.equal('OK')
+                expect(response.body).to.include('CAC TAT')
+            })
+    });
+
+
+
+    it('ct29-encontrar o gato escondido ', () => {
+        //const longtext = Cypress._.repeat('0123456789', 20)
+
+        cy.get('#cat')
+            .invoke('show')
+            .should('be.visible')
+
+        cy.get('#title')
+            .invoke('text', 'CAT TAT')
+
+        cy.get('#subtitle')
+            .invoke('text', 'Eu amo gatos!')
+
+    });
+
+
 })
